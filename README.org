@@ -1,0 +1,62 @@
+* fetch.el
+:PROPERTIES:
+:pin:  t
+:ID:       9e161647-7272-469b-bd95-275b7463b459
+:END:
+** Goals
+:PROPERTIES:
+:ID:       460ef072-7a74-4824-95d4-3bcb942b3ac4
+:pin:  0
+:END:
+ - Simple, discoverable API
+ - Reduce boilerplate
+
+** Installing
+:PROPERTIES:
+:pin:  1
+:END:
+
+*** Using Straight.el
+
+#+begin_src emacs-lisp
+(straight-use-package
+ '(fetch :type git :host github :repo "ebpa/fetch.el" :files ("*.el")))
+#+end_src
+
+** Usage
+:PROPERTIES:
+:pin:  2
+:ID:       e75ea265-0edf-4fa1-921a-0beb362a4472
+:END:
+
+*** Basic synchronous usage
+
+#+begin_src emacs-lisp
+(fetch "https://www.gnu.org/software/emacs")
+#+end_src
+
+*** Asynchronous (callback)
+
+#+begin_src emacs-lisp
+(fetch "https://www.gnu.org/software/emacs"
+  :callback (lambda (response)
+              (message "The response status code is %d" (fetch-response-status-code response))))
+#+end_src
+
+*** Asynchronous (promise.el)
+
+#+begin_src emacs-lisp
+(promise-chain
+    (fetch "https://www.gnu.org/software/emacs" :promise t)
+  (then #'fetch-html)
+  (then (lambda (html)
+          (message "%s" html))))
+#+end_src
+
+** Alternatives / Related Projects
+:PROPERTIES:
+:pin:  -1
+:ID:       ede1cf7c-caea-4c7c-ad08-2f850ee1e8a9
+:END:
+
+ - [[https://github.com/tkf/emacs-request][request.el]]
