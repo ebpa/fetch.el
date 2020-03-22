@@ -69,3 +69,4 @@ This library was created as an alternative to the built-in ~url-*~ methods in Em
 :END:
 
  - [[https://github.com/tkf/emacs-request][request.el]]
+ - [[https://github.com/tkf/emacs-request][tkf/emacs-request]]
