@@ -3,17 +3,26 @@
 :pin:  t
 :ID:       9e161647-7272-469b-bd95-275b7463b459
 :END:
+** Introduction
+:PROPERTIES:
+:ID:       47413c86-d590-4316-87f1-db19611c640f
+:pin:      0
+:END:
+
+This library was created as an alternative to the built-in ~url-*~ methods in Emacs to enable more control over HTTP requests.  Is loosely modeled after the [[https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API][fetch]] web browser API and inspired by the minimalism of ghub.el.
+
 ** Goals
 :PROPERTIES:
 :ID:       460ef072-7a74-4824-95d4-3bcb942b3ac4
-:pin:  0
+:pin:      1
 :END:
  - Simple, discoverable API
  - Reduce boilerplate
 
 ** Installing
 :PROPERTIES:
-:pin:  1
+:pin:      2
+:ID:       c736a8df-408a-4844-b703-df3967079cc6
 :END:
 
 *** Using Straight.el
@@ -25,7 +34,7 @@
 
 ** Usage
 :PROPERTIES:
-:pin:  2
+:pin:      3
 :ID:       e75ea265-0edf-4fa1-921a-0beb362a4472
 :END:
 
