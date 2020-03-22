@@ -26,12 +26,9 @@
 
 (require 'fetch-core)
 
-(cl-defmethod fetch (request &rest args)
+(cl-defmethod fetch (resource &optional init &rest args)
   "Core function to make HTTP requests."
-  (-let* ((request (if (listp request)
-                       (apply #'fetch-request-create request)
-                     (fetch-request-create :resource request))))
-    (apply #'fetch request args)))
+  (apply #'fetch (apply #'fetch-request-create resource init) args))
 
 (cl-defmethod fetch-parse-json ((response fetch-response))
   "Read the JSON object contained in the body of RESPONSE and return it.
@@ -50,7 +47,7 @@ See: `json-read-from-string'."
   "Fetch RESOURCE and return the JSON object contained in the body of the response.
 
 See: `json-read-from-string'."
-  (fetch-parse-json (fetch (fetch-request-create :resource resource :headers '(("Accept" . "application/json"))))))
+  (fetch-parse-json (fetch (fetch-request-create resource :headers '(("Accept" . "application/json"))))))
 
 (cl-defmethod fetch-parse-json ((response-promise promise-class))
   "Read the JSON object contained in the body of the response value that RESPONSE-PROMISE resolves to and return it.
@@ -71,16 +68,16 @@ See: `libxml-parse-html-region'."
       (libxml-parse-html-region (point-min) (point-max)))))
 
 (cl-defmethod fetch-parse-html ((request fetch-request))
-  "Read the HTML object contained in the body of RESPONSE and return it.
+  "Return the HTML object contained in the body of resource returned by REQUEST.
 
 See: `libxml-parse-html-region'."
   (fetch-parse-html (fetch request)))
 
 (cl-defmethod fetch-parse-html (resource)
-  "Read the HTML object contained in the body of RESPONSE and return it.
+  "Read the HTML object contained in the body of RESOURCE and return it.
 
 See: `libxml-parse-html-region'."
-  (fetch-parse-html (fetch-request-create :resource resource)))
+  (fetch-parse-html (fetch-request-create resource)))
 
 (cl-defmethod fetch-parse-xml ((response fetch-response))
   "Read the XML object contained in the body of RESPONSE and return it.
@@ -88,9 +85,18 @@ See: `libxml-parse-html-region'."
 See: `libxml-parse-xml-region'."
   (when (fetch-response-body response)
     (with-temp-buffer
-      (insert (fetch-response-body response))
+      (insert (string-trim (fetch-response-body response)))
       (goto-char (point-min))
       (libxml-parse-xml-region (point-min) (point-max)))))
+
+(cl-defmethod fetch-parse-xml (resource)
+  ""
+  (fetch-parse-xml (fetch-request-create resource)))
+
+(cl-defmethod fetch-body-string (resource)
+  ""
+  (fetch-response-body
+   (fetch resource)))
 
 (provide 'fetch-sugar)
 

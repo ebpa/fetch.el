@@ -4,7 +4,7 @@
 
 ;; Author: Erik Anderson <erik@ebpa.link>
 ;; Keywords: tools
-;; Package-Requires: ((emacs "24.4"))
+;; Package-Requires: ((emacs "24.4") (promise "1.1") (dash "2.17.0"))
 ;; Version: 0.0.1
 
 ;; This program is free software; you can redistribute it and/or modify
